@@ -38,7 +38,7 @@ impl Component for AppBar {
 #[graphql(impl = ComponentValue)]
 pub struct TextButton {
     pub text: String,
-    pub enabled: bool,
+    pub route: Option<String>,
 }
 
 #[graphql_interface]

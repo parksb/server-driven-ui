@@ -7,11 +7,11 @@ pub fn components() -> Vec<ComponentValue> {
         }),
         ComponentValue::TextButton(TextButton {
             text: "Sign in".to_string(),
-            enabled: true,
+            route: Some("/sign_in".to_string()),
         }),
         ComponentValue::TextButton(TextButton {
             text: "Sign up".to_string(),
-            enabled: false,
+            route: None,
         }),
     ]
 }
