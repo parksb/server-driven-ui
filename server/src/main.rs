@@ -1,11 +1,9 @@
-use std::io;
-use std::sync::Arc;
-
 use actix_cors::Cors;
-use actix_web::http::header;
-use actix_web::{middleware, web, App, Error, HttpResponse, HttpServer};
+use actix_web::{http, middleware, web, App, Error, HttpResponse, HttpServer};
 use juniper::http::graphiql::graphiql_source;
 use juniper::http::GraphQLRequest;
+use std::io;
+use std::sync::Arc;
 
 pub mod resolvers;
 pub mod schema;
@@ -49,10 +47,15 @@ async fn main() -> io::Result<()> {
             .wrap(middleware::Logger::default())
             .wrap(
                 Cors::default()
-                    .allow_any_origin()
-                    .allowed_methods(vec!["POST", "GET", "OPTIONS"])
-                    .allowed_headers(vec![header::AUTHORIZATION, header::ACCEPT])
-                    .allowed_header(header::CONTENT_TYPE)
+                    .allowed_origin_fn(|origin, _| {
+                        origin.as_bytes().starts_with(b"http://localhost")
+                    })
+                    .allowed_methods(vec!["POST", "GET"])
+                    .allowed_headers(vec![
+                        http::header::AUTHORIZATION,
+                        http::header::ACCEPT,
+                        http::header::CONTENT_TYPE,
+                    ])
                     .supports_credentials()
                     .max_age(3600),
             )
