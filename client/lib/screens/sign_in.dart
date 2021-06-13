@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
 import '../api/screen_query.dart';
-import '../components/registry.dart';
 
 class SignInScreen extends StatelessWidget {
   Future<List<Widget>> _load(BuildContext context) async {
-    var data = await ScreenQuery.fetch(ScreenType.SIGN_IN);
-    var components = data['screen']['components'] as List<dynamic>;
-    return components.map((component) => Registry.getComponent(component, context)).toList();
+    return ScreenQuery.fetchComponents(context, ScreenType.SIGN_IN);
   }
 
   Widget build(BuildContext context) {

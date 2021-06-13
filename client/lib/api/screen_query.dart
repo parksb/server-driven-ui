@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+
 import 'graphql.dart';
+import '../components/registry.dart';
 
 enum ScreenType {
   HOME,
@@ -16,6 +19,12 @@ extension ScreenTypeExtension on ScreenType {
 }
 
 class ScreenQuery {
+  static Future<List<Widget>> fetchComponents(BuildContext context, ScreenType screenType) async {
+    var data = await fetch(screenType);
+    var components = data['screen']['components'] as List<dynamic>;
+    return components.map((component) => Registry.getComponent(component, context)).toList();
+  }
+
   static fetch(ScreenType screenType) async {
     var query = r'''
       query getScreen($screenType: ScreenType!) {
