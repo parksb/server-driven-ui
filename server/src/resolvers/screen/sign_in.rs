@@ -1,16 +1,16 @@
 use crate::schema::*;
 
-pub fn components() -> Vec<ComponentValue> {
+pub fn components() -> Vec<Component> {
     vec![
-        ComponentValue::AppBar(AppBar {
+        Component::AppBar(AppBar {
             title: "Sign in".to_string(),
         }),
-        ComponentValue::TextField(TextField {
+        Component::TextField(TextField {
             label_text: "Email".to_string(),
             enabled: true,
             placeholder: None,
         }),
-        ComponentValue::TextField(TextField {
+        Component::TextField(TextField {
             label_text: "Password".to_string(),
             enabled: true,
             placeholder: None,

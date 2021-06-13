@@ -1,15 +1,15 @@
 use crate::schema::*;
 
-pub fn components() -> Vec<ComponentValue> {
+pub fn components() -> Vec<Component> {
     vec![
-        ComponentValue::AppBar(AppBar {
+        Component::AppBar(AppBar {
             title: "Home".to_string(),
         }),
-        ComponentValue::TextButton(TextButton {
+        Component::TextButton(TextButton {
             text: "Sign in".to_string(),
             route: Some("/sign_in".to_string()),
         }),
-        ComponentValue::TextButton(TextButton {
+        Component::TextButton(TextButton {
             text: "Sign up".to_string(),
             route: None,
         }),

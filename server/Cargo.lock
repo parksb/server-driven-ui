@@ -1469,6 +1469,7 @@ version = "0.1.0"
 dependencies = [
  "actix-cors",
  "actix-web",
+ "derive_more",
  "env_logger",
  "juniper",
  "serde",

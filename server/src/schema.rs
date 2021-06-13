@@ -1,7 +1,6 @@
-use juniper::graphql_interface;
-use juniper::FieldResult;
-use juniper::{EmptySubscription, RootNode};
-use juniper::{GraphQLEnum, GraphQLObject};
+use derive_more::From;
+use juniper::{FieldResult, EmptySubscription, RootNode};
+use juniper::{GraphQLEnum, GraphQLObject, GraphQLUnion};
 
 use crate::resolvers;
 
@@ -13,55 +12,41 @@ pub enum ScreenType {
 
 #[derive(GraphQLObject)]
 pub struct Screen {
-    pub components: Vec<ComponentValue>,
+    pub components: Vec<Component>,
 }
 
-#[graphql_interface(for = [AppBar, TextButton, TextField])]
-pub trait Component {
-    fn id(&self) -> i32;
+#[derive(From, GraphQLUnion)]
+pub enum Component {
+    AppBar(AppBar),
+    TextButton(TextButton),
+    TextField(TextField),
 }
+
+// +------------+
+// | Components |
+// +------------+
 
 #[derive(GraphQLObject)]
-#[graphql(impl = ComponentValue)]
 pub struct AppBar {
     pub title: String,
 }
 
-#[graphql_interface]
-impl Component for AppBar {
-    fn id(&self) -> i32 {
-        0
-    }
-}
-
 #[derive(GraphQLObject)]
-#[graphql(impl = ComponentValue)]
 pub struct TextButton {
     pub text: String,
     pub route: Option<String>,
 }
 
-#[graphql_interface]
-impl Component for TextButton {
-    fn id(&self) -> i32 {
-        1
-    }
-}
-
 #[derive(GraphQLObject)]
-#[graphql(impl = ComponentValue)]
 pub struct TextField {
     pub label_text: String,
     pub placeholder: Option<String>,
     pub enabled: bool,
 }
 
-#[graphql_interface]
-impl Component for TextField {
-    fn id(&self) -> i32 {
-        2
-    }
-}
+// +---------+
+// | Queries |
+// +---------+
 
 pub struct QueryRoot;
 
@@ -71,6 +56,10 @@ impl QueryRoot {
         Ok(resolvers::screen::query::screen(screen_type))
     }
 }
+
+// +-----------+
+// | Mutations |
+// +-----------+
 
 pub struct MutationRoot;
 

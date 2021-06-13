@@ -7,7 +7,7 @@ pub fn screen(screen_type: ScreenType) -> Screen {
     }
 }
 
-fn get_screen_components(screen_type: ScreenType) -> Vec<ComponentValue> {
+fn get_screen_components(screen_type: ScreenType) -> Vec<Component> {
     match screen_type {
         ScreenType::Home => screen::home::components(),
         ScreenType::SignIn => screen::sign_in::components(),
