@@ -21,30 +21,63 @@ extension ScreenTypeExtension on ScreenType {
 class ScreenQuery {
   static Future<List<Widget>> fetchComponents(BuildContext context, ScreenType screenType) async {
     var data = await fetch(screenType);
-    var components = data['screen']['components'] as List<dynamic>;
-    return components.map((component) => Registry.getComponent(component, context)).toList();
+    return Registry.getComponents(data['screen']['components'], context);
   }
 
   static fetch(ScreenType screenType) async {
+    var appBarFragment = r'''
+      ... on AppBar {
+        __typename
+        title
+      }
+    ''';
+
+    var textFieldFragment = r'''
+      ... on TextField {
+        __typename
+        labelText
+        placeholder
+        enabled
+      }
+      ''';
+
+    var textButtonFragment = r'''
+      ... on TextButton {
+        __typename
+        text
+        route
+      }
+    ''';
+
+    var componentFragments =
+        appBarFragment + textFieldFragment + textButtonFragment;
+
+    var containerFragment = r'''
+      ... on Container {
+        color {
+          value
+          alpha
+        }
+        child {
+          ''' + componentFragments + r'''
+        }
+      }
+    ''';
+
+    var gridViewFragment = r'''
+      ... on GridView {
+        columnCount
+        children {
+          ''' + containerFragment + r'''
+        }
+      }
+    ''';
+
     var query = r'''
       query getScreen($screenType: ScreenType!) {
         screen(screenType: $screenType) {
           components {
-            ... on AppBar {
-              __typename
-              title
-            }
-            ... on TextField {
-              __typename
-              labelText
-              placeholder
-              enabled
-            }
-            ... on TextButton {
-              __typename
-              text
-              route
-            }         
+             ''' + componentFragments + gridViewFragment + r'''        
           }
         }
       }

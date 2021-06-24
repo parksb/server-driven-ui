@@ -1,5 +1,5 @@
 use derive_more::From;
-use juniper::{FieldResult, EmptySubscription, RootNode};
+use juniper::{EmptySubscription, FieldResult, RootNode};
 use juniper::{GraphQLEnum, GraphQLObject, GraphQLUnion};
 
 use crate::resolvers;
@@ -20,6 +20,8 @@ pub enum Component {
     AppBar(AppBar),
     TextButton(TextButton),
     TextField(TextField),
+    GridView(GridView),
+    Container(Container),
 }
 
 // +------------+
@@ -42,6 +44,24 @@ pub struct TextField {
     pub label_text: String,
     pub placeholder: Option<String>,
     pub enabled: bool,
+}
+
+#[derive(GraphQLObject)]
+pub struct GridView {
+    pub column_count: i32,
+    pub children: Vec<Component>,
+}
+
+#[derive(GraphQLObject)]
+pub struct Container {
+    pub color: Color,
+    pub child: Box<Component>,
+}
+
+#[derive(GraphQLObject)]
+pub struct Color {
+    pub value: i32,
+    pub alpha: i32,
 }
 
 // +---------+

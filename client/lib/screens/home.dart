@@ -17,7 +17,11 @@ class HomeScreen extends StatelessWidget {
                 if (snapshot.hasData == false) {
                   return Center(child: CircularProgressIndicator());
                 } else {
-                  return Column(children: snapshot.data);
+                  return Expanded(
+                    child: Column(
+                      children: snapshot.data,
+                    ),
+                  );
                 }
               },
             ),
