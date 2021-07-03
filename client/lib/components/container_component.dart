@@ -6,7 +6,8 @@ import 'component.dart';
 class ContainerComponent implements Component {
   Widget compose(Map<String, dynamic> args, BuildContext context) {
     return Container(
-      color: Color(args["color"]["value"]).withAlpha(args["color"]["alpha"]),
+      padding: EdgeInsets.all(args["padding"]),
+      color: args["color"] == null ? null : Color(args["color"]["value"]).withAlpha(args["color"]["alpha"]),
       child: Registry.getComponent(args["child"], context),
     );
   }

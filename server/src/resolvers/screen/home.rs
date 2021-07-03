@@ -9,20 +9,22 @@ pub fn components() -> Vec<Component> {
             column_count: 2,
             children: vec![
                 Component::Container(Container {
-                    color: Color {
+                    padding: 0,
+                    color: Some(Color {
                         value: 0x80cbc4,
                         alpha: 0xff,
-                    },
+                    }),
                     child: Box::new(Component::TextButton(TextButton {
                         text: "Sign in".to_string(),
                         route: Some("/sign_in".to_string()),
                     })),
                 }),
                 Component::Container(Container {
-                    color: Color {
+                    padding: 0,
+                    color: Some(Color {
                         value: 0x80cbc4,
                         alpha: 0xff,
-                    },
+                    }),
                     child: Box::new(Component::TextButton(TextButton {
                         text: "Sign up".to_string(),
                         route: None,

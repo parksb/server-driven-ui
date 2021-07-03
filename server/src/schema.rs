@@ -22,6 +22,7 @@ pub enum Component {
     TextField(TextField),
     GridView(GridView),
     Container(Container),
+    Column(Column),
 }
 
 // +------------+
@@ -54,8 +55,14 @@ pub struct GridView {
 
 #[derive(GraphQLObject)]
 pub struct Container {
-    pub color: Color,
+    pub padding: i32,
+    pub color: Option<Color>,
     pub child: Box<Component>,
+}
+
+#[derive(GraphQLObject)]
+pub struct Column {
+    pub children: Vec<Component>,
 }
 
 #[derive(GraphQLObject)]

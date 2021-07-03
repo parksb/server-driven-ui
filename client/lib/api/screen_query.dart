@@ -52,14 +52,23 @@ class ScreenQuery {
     var componentFragments =
         appBarFragment + textFieldFragment + textButtonFragment;
 
+    var columnFragment = r'''
+      ... on Column {
+        children {
+          ''' + componentFragments + '''
+        }
+      }
+    ''';
+
     var containerFragment = r'''
       ... on Container {
+        padding
         color {
           value
           alpha
         }
         child {
-          ''' + componentFragments + r'''
+          ''' + columnFragment + componentFragments + r'''
         }
       }
     ''';
@@ -77,7 +86,7 @@ class ScreenQuery {
       query getScreen($screenType: ScreenType!) {
         screen(screenType: $screenType) {
           components {
-             ''' + componentFragments + gridViewFragment + r'''        
+             ''' + componentFragments + gridViewFragment + containerFragment + r'''        
           }
         }
       }

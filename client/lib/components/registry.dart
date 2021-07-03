@@ -6,6 +6,7 @@ import 'text_field_component.dart';
 import 'text_button_component.dart';
 import 'grid_view_component.dart';
 import 'container_component.dart';
+import 'column_component.dart';
 
 class Registry {
   static final Map<String, Component> _dictionary = {
@@ -14,6 +15,7 @@ class Registry {
     'TextButton': TextButtonComponent(),
     'GridView': GridViewComponent(),
     'Container': ContainerComponent(),
+    'Column': ColumnComponent(),
   };
 
   static Widget getComponent(dynamic component, BuildContext context) {
